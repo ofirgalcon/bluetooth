@@ -1,4 +1,4 @@
-#!/usr/local/munkireport/munkireport-python
+#!/usr/local/munkireport/munkireport-python2
 
 import subprocess
 import os
