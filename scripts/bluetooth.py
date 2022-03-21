@@ -68,7 +68,6 @@ def flatten_bluetooth_info(obj):
 
                     for item_local in obj_local:
                         if item_local == 'general_address' or item_local == 'controller_address':
-                            print(obj_local[item_local])
                             if obj_local[item_local] != 'NULL':
                                 device['machine_address'] = obj_local[item_local]
                         elif item_local == 'general_autoseek_keyboard' or item_local == 'controller_autoSeekKeyboard':
