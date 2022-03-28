@@ -1,4 +1,4 @@
-#!/usr/local/munkireport/munkireport-python2
+#!/usr/local/munki/munki-python
 
 import subprocess
 import os
@@ -15,7 +15,10 @@ def get_bluetooth_info():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
     try:
-        plist = plistlib.readPlistFromString(output)
+        try:
+            plist = plistlib.readPlistFromString(output)
+        except AttributeError as e:
+            plist = plistlib.loads(output)
         # system_profiler xml is an array
         sp_dict = plist[0]
         items = sp_dict['_items'][0]
@@ -31,9 +34,9 @@ def flatten_bluetooth_info(obj):
     # Check if there is Bluetooth hardware
     try:
         # Check if we're running macOS 12+
-        if 'controller_properties' in obj.keys() and 'devices_list' in obj.keys():
+        if 'controller_properties' in list(obj.keys()) and 'devices_list' in list(obj.keys()):
             obj_device = obj['devices_list']
-        elif 'controller_properties' in obj.keys() and 'devices_list' not in obj.keys():
+        elif 'controller_properties' in list(obj.keys()) and 'devices_list' not in list(obj.keys()):
             obj_device = [{'blank_item':'blank_item'}]
         else:
             obj['device_title']
@@ -52,7 +55,7 @@ def flatten_bluetooth_info(obj):
             for item_att in bt_device[item]:
 
                 # Set name of device
-                if item is not 'blank_item':
+                if item != 'blank_item':
                     device['device_name'] = item
 
                 if i == 0:
@@ -60,7 +63,7 @@ def flatten_bluetooth_info(obj):
                     i = 1
 
                     # Apple changed Bluetooth reporting in macOS 12
-                    if 'apple_bluetooth_version' in obj.keys():
+                    if 'apple_bluetooth_version' in list(obj.keys()):
                         device['apple_bluetooth_version'] = obj['apple_bluetooth_version']
                         obj_local = obj['local_device_title']
                     else:
@@ -140,11 +143,6 @@ def to_bool(s):
 def main():
     """Main"""
 
-    # Set the encoding
-    # The "ugly hack" :P 
-    reload(sys)  
-    sys.setdefaultencoding('utf8')
-
     # Get results
     result = dict()
     result = flatten_bluetooth_info(get_bluetooth_info())
@@ -152,8 +150,11 @@ def main():
     # Write memory results to cache
     cachedir = '%s/cache' % os.path.dirname(os.path.realpath(__file__))
     output_plist = os.path.join(cachedir, 'bluetoothinfo.plist')
-    plistlib.writePlist(result, output_plist)
-    # print plistlib.writePlistToString(result)
+    try:
+        plistlib.writePlist(result, output_plist)
+    except:
+        with open(output_plist, 'wb') as fp:
+            plistlib.dump(result, fp, fmt=plistlib.FMT_XML)
 
 if __name__ == "__main__":
     main()
