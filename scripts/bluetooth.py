@@ -147,7 +147,7 @@ def main():
     result = dict()
     result = flatten_bluetooth_info(get_bluetooth_info())
 
-    # Write memory results to cache
+    # Write bluetooth results to cache
     cachedir = '%s/cache' % os.path.dirname(os.path.realpath(__file__))
     output_plist = os.path.join(cachedir, 'bluetoothinfo.plist')
     try:
