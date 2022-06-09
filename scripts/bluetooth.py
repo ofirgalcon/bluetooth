@@ -69,7 +69,11 @@ def flatten_bluetooth_info(obj):
                     for item_local in obj_local:
                         if item_local == 'general_address' or item_local == 'controller_address':
                             if obj_local[item_local] != 'NULL':
-                                device['machine_address'] = obj_local[item_local]
+                                device['machine_address'] = obj_local[item_local].replace('-', ":")
+                            else:
+                                bt_mac_address = get_bluetooth_address()
+                                if bt_mac_address != "":
+                                    device['machine_address'] = bt_mac_address
                         elif item_local == 'general_autoseek_keyboard' or item_local == 'controller_autoSeekKeyboard':
                             device['autoseek_keyboard'] = to_bool(obj_local[item_local])
                         elif item_local == 'general_autoseek_pointing' or item_local == 'controller_autoSeekPointing':
@@ -130,6 +134,25 @@ def flatten_bluetooth_info(obj):
 
             out.append(device)
     return out
+
+def get_bluetooth_address():
+    cmd = ['/usr/sbin/ioreg', '-r', '-k', 'BD_ADDR']
+    proc = subprocess.Popen(cmd, shell=False, bufsize=-1,
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    (output, unused_error) = proc.communicate()
+
+    try:
+        bt_addr = ""
+
+        for item in output.split("\n"):
+            if '"BD_ADDR" = <' in item:
+                addr = item.split(" <")[1].split(">")[0].strip()
+                bt_addr = ':'.join(addr[i:i+2] for i in range(0,len(addr),2))
+
+        return bt_addr.upper()
+    except:
+        return ""
 
 def to_bool(s):
     if s == "attrib_Yes" or s == "attrib_On" or s == "attrib_on"  or s == "attrib_yes" or s == "Yes":
