@@ -37,7 +37,11 @@ $(document).on('appReady', function(){
                     if(d[prop] !== 0 && d[prop] == '' || d[prop] == null){
                         inforows = inforows
                     }
-                    else if(prop == 'machine_address' || prop == 'hardware_transport' || prop == 'machine_name' || prop == 'vendor_id'){
+
+                    else if(prop == 'controller_chipset' && d[prop] == 'THIRD_PARTY_DONGLE' ){
+                       inforows = inforows + '<tr><th>'+i18n.t('bluetooth.'+prop)+'</th><td>'+i18n.t('bluetooth.third_party_dongle')+'</td></tr>';
+                    }
+                    else if(prop == 'machine_address' || prop == 'hardware_transport' || prop == 'machine_name' || prop == 'vendor_id' || prop == 'controller_chipset' || prop == 'controller_firmware'){
                        inforows = inforows + '<tr><th>'+i18n.t('bluetooth.'+prop)+'</th><td>'+d[prop]+'</td></tr>';
                     } 
 
@@ -74,7 +78,7 @@ $(document).on('appReady', function(){
                     }
 
 
-                    else if(prop == 'device_address' || prop == 'manufacturer' || prop == 'majorclass' || prop == 'minorclass' || prop == 'services'){
+                    else if(prop == 'device_address' || prop == 'manufacturer' || prop == 'majorclass' || prop == 'minorclass' || prop == 'services' || prop == 'device_firmware' || prop == 'device_productid' || prop == 'device_vendorid'){
                        devicerows = devicerows + '<tr><th>'+i18n.t('bluetooth.'+prop)+'</th><td>'+d[prop]+'</td></tr>';
                     }
                     else if(prop == 'batterypercent'){

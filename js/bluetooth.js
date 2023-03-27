@@ -14,3 +14,11 @@ var formatBluetoothSupported = function(colNumber, row){
         (colvar === '0' ? i18n.t('bluetooth.unsupported') : '')
     col.text(colvar)
 }
+
+var formatBluetoothChipset = function(colNumber, row){
+    var col = $('td:eq('+colNumber+')', row),
+        colvar = col.text();
+    colvar = colvar == 'THIRD_PARTY_DONGLE' ? i18n.t('bluetooth.third_party_dongle') :
+        colvar = colvar
+    col.text(colvar)
+}

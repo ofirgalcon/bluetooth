@@ -33,21 +33,40 @@ def flatten_bluetooth_info(obj):
 
     # Check if there is Bluetooth hardware
     try:
-        # Check if we're running macOS 12+
-        if 'controller_properties' in list(obj.keys()) and 'devices_list' in list(obj.keys()):
-            obj_device = obj['devices_list']
-        elif 'controller_properties' in list(obj.keys()) and 'devices_list' not in list(obj.keys()):
+        obj_device = []
+
+        # Check for different types of output
+        # Big Sur and older
+        if 'device_title' in list(obj.keys()):
+            obj_device.extend(obj['device_title'])
+
+        # Monterey+, with connected devices
+        if 'device_connected' in list(obj.keys()):
+            for bt_item in obj['device_connected']:
+                for bt_item_0 in bt_item:
+                    bt_item[bt_item_0]["device_isconnected"] = "attrib_Yes"
+            obj_device.extend(obj['device_connected'])
+
+        # Monterey+, with previously connected devices
+        if 'device_not_connected' in list(obj.keys()):
+            for bt_item in obj['device_not_connected']:
+                for bt_item_0 in bt_item:
+                    bt_item[bt_item_0]["device_isconnected"] = "attrib_No"
+            obj_device.extend(obj['device_not_connected'])
+
+        # Monterey+, no devices connected
+        if 'controller_properties' in list(obj.keys()) and 'devices_list' not in list(obj.keys()) and 'device_connected' not in list(obj.keys()) and 'device_not_connected' not in list(obj.keys()) and 'device_title' not in list(obj.keys()):
             obj_device = [{'blank_item':'blank_item'}]
-        else:
-            obj['device_title']
-            obj_device = obj['device_title']
+
+        # If we have no Bluetooth
+        if 'controller_properties' not in list(obj.keys()) and 'devices_list' not in list(obj.keys()) and 'device_connected' not in list(obj.keys()) and 'device_not_connected' not in list(obj.keys()) and 'device_title' not in list(obj.keys()):
+            return [{'power':-1}]
     except:
         try:
             obj['local_device_title']
             obj_device = [{'blank_item':'blank_item'}]
         except:
             return [{'power':-1}]
-
 
     for bt_device in obj_device:
         for item in bt_device:
@@ -106,6 +125,10 @@ def flatten_bluetooth_info(obj):
 
                         elif item_local == 'general_vendorID' or item_local == 'controller_vendorID':
                             device['vendor_id'] = obj_local[item_local]
+                        elif item_local == 'controller_chipset':
+                            device['controller_chipset'] = obj_local[item_local]
+                        elif item_local == 'controller_firmwareVersion':
+                            device['controller_firmware'] = obj_local[item_local]
 
 
                 if item_att == 'device_addr' or item_att == 'device_address':
@@ -123,6 +146,13 @@ def flatten_bluetooth_info(obj):
                     device['isconnected'] = to_bool(bt_device[item][item_att])
                 elif item_att == 'device_ispaired' or item_att == 'device_paired':
                     device['ispaired'] = to_bool(bt_device[item][item_att])
+
+                elif item_att == 'device_firmwareVersion':
+                    device['device_firmware'] = bt_device[item][item_att]
+                elif item_att == 'device_productID':
+                    device['device_productid'] = bt_device[item][item_att]
+                elif item_att == 'device_vendorID':
+                    device['device_vendorid'] = bt_device[item][item_att]
 
                 elif item_att == 'device_manufacturer':
                     device['manufacturer'] = bt_device[item][item_att]

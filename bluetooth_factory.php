@@ -29,6 +29,11 @@ $factory->define(Bluetooth_model::class, function (Faker\Generator $faker) {
         'majorclass' => $faker->word(),
         'minorclass' => $faker->word(),
         'services' => $faker->text(),
+        'controller_chipset' => $faker->text(),
+        'controller_firmware' => $faker->text(),
+        'device_firmware' => $faker->text(),
+        'device_productid' => $faker->text(),
+        'device_vendorid' => $faker->text(),
     ];
 });
 

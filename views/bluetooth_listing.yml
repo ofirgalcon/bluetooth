@@ -12,7 +12,6 @@ table:
   - {i18n_header: bluetooth.power, column: bluetooth.power, formatter: binaryOnOff}
   - {i18n_header: bluetooth.discoverable, column: bluetooth.discoverable, formatter: binaryYesNo}
   - {i18n_header: bluetooth.supports_lowenergy, column: bluetooth.supports_lowenergy, formatter: binaryYesNo}
-  - {i18n_header: bluetooth.supports_airdrop, column: bluetooth.supports_airdrop, formatter: formatBluetoothSupported}
   - {i18n_header: bluetooth.supports_instanthotspot, column: bluetooth.supports_instanthotspot, formatter: formatBluetoothSupported}
   - {i18n_header: bluetooth.supports_handoff, column: bluetooth.supports_handoff, formatter: formatBluetoothSupported}
   - {i18n_header: bluetooth.remotewake, column: bluetooth.remotewake, formatter: binaryYesNo}
@@ -20,3 +19,5 @@ table:
   - {i18n_header: bluetooth.autoseek_pointing, column: bluetooth.autoseek_pointing, formatter: binaryYesNo}
   - {i18n_header: bluetooth.connectable, column: bluetooth.connectable, formatter: binaryYesNo}
   - {i18n_header: bluetooth.apple_bluetooth_version, column: bluetooth.apple_bluetooth_version}
+  - {i18n_header: bluetooth.controller_chipset, column: bluetooth.controller_chipset, formatter: formatBluetoothChipset}
+  - {i18n_header: bluetooth.controller_firmware, column: bluetooth.controller_firmware}

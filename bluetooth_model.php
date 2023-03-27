@@ -35,6 +35,11 @@ class Bluetooth_model extends Eloquent
 		'majorclass',
 		'minorclass',
 		'services',
+		'controller_chipset',
+		'controller_firmware',
+		'device_firmware',
+		'device_productid',
+		'device_vendorid',
     ];
 
     public $timestamps = false;

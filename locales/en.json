@@ -35,5 +35,11 @@
     "manufacturer": "Manufacturer",
     "majorclass": "Major Device Class",
     "minorclass": "Minor Device Class",
-    "services": "Services"
+    "services": "Services",
+    "controller_chipset": "Chipset",
+    "controller_firmware": "Firmware Version",
+    "device_firmware": "Firmware Version",
+    "device_productid": "Product ID",
+    "device_vendorid": "Vendor ID",
+    "third_party_dongle": "Third Party Dongle"
 }

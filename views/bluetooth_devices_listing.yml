@@ -16,3 +16,6 @@ table:
   - {i18n_header: bluetooth.manufacturer, column: bluetooth.manufacturer}
   - {i18n_header: bluetooth.majorclass, column: bluetooth.majorclass}
   - {i18n_header: bluetooth.minorclass, column: bluetooth.minorclass}
+  - {i18n_header: bluetooth.device_vendorid, column: bluetooth.device_vendorid}
+  - {i18n_header: bluetooth.device_productid, column: bluetooth.device_productid}
+  - {i18n_header: bluetooth.device_firmware, column: bluetooth.device_firmware}

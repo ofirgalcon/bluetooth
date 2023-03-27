@@ -36,3 +36,8 @@ Database:
 * majorclass - varchar(255) - major class of device
 * minorclass - varchar(255) - minor class of device
 * services - text - string of exposed Bluetooth services
+* controller_chipset - varchar(255) - controller chipset
+* controller_firmware - varchar(255) - controller firmware version
+* device_firmware - varchar(255) - device firmware version
+* device_productid - varchar(255) - device product ID
+* device_vendorid - varchar(255) - device vendor ID
