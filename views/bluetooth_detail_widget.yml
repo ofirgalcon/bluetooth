@@ -2,4 +2,5 @@ type: table
 i18n_title: bluetooth.bluetooth
 table_id: mr-bluetooth-table
 icon: bluetooth-b
+tab_link: bluetooth
 table:
